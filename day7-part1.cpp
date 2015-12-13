@@ -10,18 +10,18 @@ struct node
 	string x;
 	string y;
 	string w;
-	int oper;
+	unsigned short oper;
 };
 
-int stoi(string str)
+unsigned short stoi(string str)
 {
 
 	return atoi( str.c_str() );
 }
 
 node temp;
-map <string, int> mp;
-int vis[400];
+map <string, unsigned short> mp;
+unsigned short vis[400];
 void parser(string x)
 {
 	
@@ -29,21 +29,34 @@ void parser(string x)
 		mp[x] = stoi(x);
 	}
 }
+
+string tostring(unsigned short x)
+{
+	
+	string res;
+	
+	while(x) {
+		res = (char)(( x % 10) + '0') + res;
+		x = x / 10;
+	}
+	
+	return res;
+}
+
 int main()
 {
 
-	int t;
-	
+	unsigned short t;
 	string x;
 	string y;
 	string oper;
 	string stemp;
 	string w;
 	fstream fcin;
-	int count;
-	int xx;
-	int yy;
-	int marked;
+	unsigned short count;
+	unsigned short xx;
+	unsigned short yy;
+	unsigned short marked;
 	
 	node a[400];
 	fcin.open("input", ios::in);
@@ -55,6 +68,7 @@ int main()
 		if(x == "NOT") {
 			fcin >> x;
 			parser(x);
+			temp.x = x;
 			temp.oper = 0;
 			fcin >> stemp;
 			fcin >> x;
@@ -114,15 +128,20 @@ int main()
 	}
 	
 	marked = 0;
+	int round;
+	round = 0;
+
 	while(marked < count) {	
-		for (int i = 0; i < count; i++) {
+		
+		for (unsigned short i = 0; i < count; i++) {
 			if(vis[i] == 0) {
 				switch(a[i].oper) {
 					case 0:
 						if(mp.count(a[i].x) != 0) {
 							xx = mp[a[i].x];
 							mp[a[i].w] = ~xx;
-							cout << "set " << a[i].w << endl;
+							parser(tostring(mp[a[i].w]));
+							//cout << "set " << a[i].w <<" via " << a[i].oper <<  endl;
 							marked++;
 							vis[i] = 1;
 						}
@@ -131,7 +150,8 @@ int main()
 						if(mp.count(a[i].x) != 0) {
 							xx = mp[a[i].x];
 							mp[a[i].w] = xx;
-							cout << "set " << a[i].w << endl;
+							parser(tostring(mp[a[i].w]));
+							//cout << "set " << a[i].w <<" via " << a[i].oper <<  endl;
 							marked++;
 							vis[i] = 1;
 						}
@@ -140,8 +160,9 @@ int main()
 						if(mp.count(a[i].x) != 0 and mp.count(a[i].y) != 0) {
 							xx = mp[a[i].x];
 							yy = mp[a[i].y];
+							//cout << "set " << a[i].w <<" via " << a[i].oper <<  endl;
 							mp[a[i].w] = xx | yy;
-							cout << "set " << a[i].w << endl;
+							parser(tostring(mp[a[i].w]));
 							marked++;
 							vis[i] = 1;
 						}
@@ -151,8 +172,9 @@ int main()
 						if(mp.count(a[i].x) != 0 and mp.count(a[i].y) != 0) {
 							xx = mp[a[i].x];
 							yy = mp[a[i].y];
+							//cout << "set " << a[i].w <<" via " << a[i].oper <<  endl;
 							mp[a[i].w] = xx & yy;
-							cout << "set " << a[i].w << endl;
+							parser(tostring(mp[a[i].w]));
 							marked++;
 							vis[i] = 1;
 						}
@@ -163,7 +185,8 @@ int main()
 							xx = mp[a[i].x];
 							yy = mp[a[i].y];
 							mp[a[i].w] = xx << yy;
-							cout << "set " << a[i].w << endl;
+							//cout << "set " << a[i].w <<" via " << a[i].oper <<  endl;
+							parser(tostring(mp[a[i].w]));
 							marked++;
 							vis[i] = 1;
 						}
@@ -174,7 +197,8 @@ int main()
 							xx = mp[a[i].x];
 							yy = mp[a[i].y];
 							mp[a[i].w] = xx >> yy;
-							cout << "set " << a[i].w << endl;
+							//cout << "set " << a[i].w <<" via " << a[i].oper <<  endl;
+							parser(tostring(mp[a[i].w]));
 							marked++;
 							vis[i] = 1;
 						}
@@ -186,6 +210,8 @@ int main()
 		}
 	}
 	
+	cout << "a " << mp["a"] << endl;
+	/*
 	cout << mp["d"] << endl;
 	cout << mp["e"] << endl;
 	cout << mp["f"] << endl;
@@ -194,9 +220,9 @@ int main()
 	cout << mp["i"] << endl;
 	cout << mp["x"] << endl;
 	cout << mp["y"] << endl;
-	
-	for (int i = 0; i < count; i++) {
-		//cout << a[i].x << " " << a[i].y << " " << a[i].w << endl;
+	*/
+	for (unsigned short i = 0; i < count; i++) {
+		////cout << a[i].x << " " << a[i].y << " " << a[i].w << endl;
 	}
 }
 
