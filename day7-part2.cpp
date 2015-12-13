@@ -1,3 +1,5 @@
+//solutions remain the same as part1. In the input file change the value of a to 3176
+
 #include <iostream>
 #include <fstream>
 #include <map>
