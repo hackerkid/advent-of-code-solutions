@@ -1,4 +1,4 @@
-//huge perfomance improvement when + was replaced with append
+//huge performance improvement when + was replaced with append
 
 #include <iostream>
 
@@ -30,7 +30,7 @@ int main()
 	last = 0;
 	x = "1321131112";
 	
-	t = 40;
+	t = 50;
 
 	for (long long cs = 1; cs <= t; cs++) {
 		n = x.length();
