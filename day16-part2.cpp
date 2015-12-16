@@ -60,6 +60,7 @@ int main()
 {
 
 	fstream fcin;
+	//remove : and , before reading input (ctrl + h would do the job)
 	fcin.open("input", ios::in);
 	
 	mp["children"] =  3;
