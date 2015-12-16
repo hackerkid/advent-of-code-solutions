@@ -1,93 +1,75 @@
 #include <iostream>
 #include <fstream>
-#include <map>
-#include <limits.h>
-
-int a[12][12];
-int n;
-int vis[12];
-int count;
 using namespace std;
 
-bool ok()
+int a[10][4];
+int n;
+
+long long score(int x, int y, int z)
 {
-	for (int i = 1; i <= n; i++) {
-		if(!vis[i])
-			return false;
-	}
-	return true;
-}
+	long long ans;
+	long long sum;
+	int v[4];
+	v[0] = x;
+	v[1] = y;
+	v[2] = z;
+	v[3] = 100 - (x + y + z);
 
-int explore(int i, int k)
-{
-	int maxi;
-	maxi = INT_MIN;
+	//cout << v[0] << " " << v[1] << " " << v[2] << " " << v[3] << endl;
+	ans = 1;
 
-	if(ok()) {
-		return a[i][k] + a[k][i];
-	}
-
-	for (int j = 1; j <= n; j++ ) {
-		if(vis[j] == 0) {
-			vis[j] = 1;
-			maxi = max(explore(j, k) + a[i][j] + a[j][i], maxi);
-			vis[j] = 0;
+	for (int i = 0; i < 5; i++) {
+		sum = 0;
+		for (int j = 0; j < n; j++) {
+			sum += a[j][i] * v[j];
 		}
-	}
 
-	return maxi;
-}
-
-int main()
-{
-	fstream fcin;
-	//check the input format
-	fcin.open("day15-input", ios::in);
-	string x;
-	string y;
-	int xx;
-	int yy;
-	int w;
-	string act;
-	map <string, int> mp;
-	mp["you"] = 1;
-	while(!fcin.eof()) {
-		fcin >> x;
-		fcin >> act;
-		fcin >> w;
-		fcin >> y;
+		if(sum < 0) {
+			ans = 0;
+		}
 		
-		if(mp.count(x) == 0) {
-			xx = mp[x] = mp.size();
-		}
-		else {
-			xx = mp[x];
-		}
+		if(i != 4)
+			ans = ans * sum;
 
-		if(mp.count(y) == 0) {
-			yy = mp[y] = mp.size();
-		}
-		else {
-			yy = mp[y];
-		}
-
-		if(act == "lose") {
-			w = -w;
-		}
-
-		a[xx][yy] = w;
 	}
 	
-	n =  mp.size();
-	int maxi;
-	maxi = INT_MIN;
+	long long cal;
+	cal = 5 * v[0] + 8 * v[1] + 6 * v[2] + 1 * v[3];
+	if(cal != 500)
+		return 0;
 
-	for (int i = 1; i <= n; i++) {
-		vis[i] = 1;
-		maxi = max(explore(i, i), maxi);
-		vis[i] = 0;
+	
+	return ans;
+}
+int main()
+{
+
+	fstream fcin;
+	//check the input
+	fcin.open("day15-input", ios::in);
+	long long maxi;
+
+	maxi = -1;
+
+	n = 0;
+
+	while(!fcin.eof()) {
+		for (int i = 0; i < 5; i++) {
+			fcin >> a[n][i];
+		}
+		n++;
 	}
 
+	for (int i = 0; i <= 100; i++) {
+		for (int j = 0; j <= 100 - i; j++) {
+			for (int k = 0; k <= 100 - (i + j) ; k++) {
+				maxi = max(score(i, j, k), maxi);
+			}
+		}
+	}
+
+
 	cout << maxi << endl;
+
 
 }
