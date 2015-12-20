@@ -8,20 +8,15 @@ map <string, int> mp;
 
 bool check(string x, int x1)
 {
-	if(mp[x] == x1) {
-		return true;
-	}
-
-	return false;
+	return mp[x] == x1;
+	
 }
-
 
 int main()
 {
 
-	fstream fcin;
 	//remove : and , before reading input (ctrl + h would do the job)
-	fcin.open("input", ios::in);
+	fstream fcin("input");
 	
 	mp["children"] =  3;
 	mp["cats"] =  7;
@@ -43,18 +38,10 @@ int main()
 	int z1;	
 	int no;
 
-	while(!fcin.eof()) {
-		fcin >> sue;
-		fcin >> no;
-		fcin >> x;
-		fcin >> x1;
-		fcin >> y;
-		fcin >> y1;
-		fcin >> z;
-		fcin >> z1;
+	while(fcin >> sue >> no >> x >> x1 >> y >> y1 >> z >> z1) {
 		
-		if(check(x, x1) and check(y, y1) and check(z, z1)) {
-			cout << no << endl;
+		if(check(x, x1) && check(y, y1) && check(z, z1)) {
+			cout << no << "\n";
 		}
 
 	}
