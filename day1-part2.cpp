@@ -15,8 +15,7 @@ int main()
 	index = 0;
 	ok = true;
 
-	fstream fcin;
-	fcin.open("input", ios::in);
+	ifstream fcin("input");
 	
 	while(!fcin.eof() and ok) {
 		fcin >> x;
